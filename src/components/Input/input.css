@@ -1,0 +1,34 @@
+.input-container{
+    width: 223px;
+    border-radius: 5px;
+    background-color: #F7F5F5;
+    display: flex;
+    align-items: center;
+    border: 1px solid #BCBCBC;
+}
+
+.icon-container {
+    padding: 5px 8px;
+    border-radius: 5px 0px 0px 5px;
+    border: 1px solid #BCBCBC;
+    background: #EAEAEA;
+}
+
+input{
+    background-color: #F7F5F5;
+    border: none;
+    padding-left: 9px;
+    color: #302F2F;
+    font-weight: 500;
+}
+
+input:focus{
+    outline: none;
+}
+
+input::placeholder {
+    color: #919090;
+    font-family: "Inter";
+    font-size: 14px;
+    font-weight: 500;
+}

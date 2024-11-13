@@ -1,0 +1,25 @@
+.number-input {
+    display: block;
+    border: 1px solid #C8C8C8;
+    background: #FCFCFC;
+    padding: 10px 0 10px 26px;
+    color: #4B4B4B;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.number-input:focus {
+    outline: none;
+}
+
+.add-enter-number-question-button {
+    cursor: pointer;
+    padding: 7px 24px;
+    border: 0;
+    border-radius: 4px;
+    background: #4CA974;
+    color: #FFFBFB;
+    font-size: 20px;
+    font-weight: 400;
+    margin-top: 50px;
+}

@@ -1,0 +1,18 @@
+.answer {
+    width: 409px;
+    height: 20px;
+    border: 1px solid #C8C8C8;
+    background: #FCFCFC;
+    padding: 12px 0 12px 20px;
+    color: #4B4B4B;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.answer::placeholder {
+    font-weight: 500;
+}
+
+.answer:focus {
+    outline: none;
+}

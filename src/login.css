@@ -1,0 +1,75 @@
+.login-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #FCFCFC;
+    border-radius: 5px;
+    padding: 15px 45px 145px 45px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.title {
+    margin-top: 15px;
+    margin-bottom: 40px;
+    font-size: 36px;
+    font-weight: bold;
+    color: #302F2F;
+}
+
+.subtitle {
+    color: #747474;
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: 0;
+    margin-bottom: 50px;
+}
+
+
+.input-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+}
+
+.helpers {
+    margin-top: 6px;
+    margin-bottom: 43px;
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.helpers .remember-me {
+    display: flex;
+    align-items: center;
+    gap: 6px
+}
+
+.helpers .remember-me input {
+    margin: 0;
+}
+
+.helpers .remember-me span,
+.forget-password-button p {
+    color: #414141;
+    font-size: 11px;
+    font-weight: 500;
+    
+}
+
+
+.login-button {
+    cursor: pointer;
+    padding: 11px 90px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #36C3A7 0%, #1A5D4F 100%);
+    color: #FFF;
+    font-size: 16px;
+    font-weight: 600;
+}

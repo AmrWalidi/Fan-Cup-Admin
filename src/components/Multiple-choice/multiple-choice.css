@@ -1,0 +1,19 @@
+.answers {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2);
+    gap: 26px 40px;
+}
+
+.add-multiple-choice-question-button {
+    display: block;
+    cursor: pointer;
+    padding: 7px 24px;
+    border: 0;
+    border-radius: 4px;
+    background: #4CA974;
+    color: #FFFBFB;
+    font-size: 20px;
+    font-weight: 400;
+    margin-top: 50px;
+}
