@@ -1,26 +1,18 @@
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { auth, db } from "../../firebase/firebase";
+import { doc, getDoc } from "firebase/firestore";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { faSignOut } from "@fortawesome/free-solid-svg-icons";
-import EnterNumber from "../components/Enter number/EnterNumber";
-import MultipleChoice from "../components/Multiple-choice/MultipleChoice";
-import EnterAnswers from "../components/Enter answers/EnterAnswers";
+import EnterNumber from "../../components/Enter number/EnterNumber";
+import MultipleChoice from "../../components/Multiple-choice/MultipleChoice";
+import EnterAnswers from "../../components/Enter answers/EnterAnswers";
 import logo from "/logo.svg";
-import "../home.css";
+import "./home.css";
+import { toast } from "react-toastify";
 
 export default function Home() {
-  const location = useLocation();
-
-  const { name } = location.state;
-  const nameArray = name.split(" ");
-  const charecter = nameArray[0][0] + nameArray[1][0];
-
-  const [selectedItem, setSelectedItem] = useState("Enter a number");
-  var [prevTranslateX, setPrevTranslate] = useState(0);
-
   const bodyStyle = {
     background: "linear-gradient(180deg, #FFF 0%, #89B89C 100%)",
     minHeight: "100vh",
@@ -29,6 +21,49 @@ export default function Home() {
   };
   const body = document.getElementsByTagName("body")[0];
   Object.assign(body.style, bodyStyle);
+
+  const location = useLocation();
+  const [name, setName] = useState("");
+  const [selectedItem, setSelectedItem] = useState("Enter a number");
+  const [prevTranslateX, setPrevTranslate] = useState(0);
+
+  useEffect(() => {
+    if (location.state != null) {
+      const { passwordChangeMessage } = location.state;
+      toast.success(passwordChangeMessage, {
+        position: "top-center",
+      });
+    }
+    location.state = null;
+  }, [location]);
+
+  const fetchUserData = async () => {
+    auth.onAuthStateChanged(async (user) => {
+      const docRef = doc(db, "Admins", user.uid);
+      const res = await getDoc(docRef);
+      if (res.exists()) {
+        const userDetails = res.data();
+        const nameArray = userDetails.name.split(" ");
+        const nickname = nameArray[0][0] + nameArray[1][0];
+        setName(nickname);
+      }
+    });
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  },[]);
+
+  const logout = async () => {
+    try {
+      await auth.signOut();
+      window.location.href = "/login";
+    } catch (error) {
+      toast.error(error.message, {
+        position: "top-center",
+      });
+    }
+  };
 
   const navigate = (section) => {
     setSelectedItem(section.textContent);
@@ -68,11 +103,11 @@ export default function Home() {
       <div className="header">
         <img className="home-logo" src={logo} alt="Fan Cup logo" />
         <div className="profile-container" onClick={dropdown}>
-          <p>{charecter}</p>
+          <p>{name}</p>
         </div>
       </div>
       <div id="dropdown-panel">
-        <Link to="change-password" style={{ textDecoration: "none" }}>
+        <Link to="/change-password" style={{ textDecoration: "none" }}>
           <div>
             <FontAwesomeIcon
               icon={faLock}
@@ -81,15 +116,13 @@ export default function Home() {
             <p style={{ color: "#4B4B4B" }}>Change password</p>
           </div>
         </Link>
-        <Link to="/login" style={{ textDecoration: "none" }}>
-          <div>
-            <FontAwesomeIcon
-              icon={faSignOut}
-              style={{ fontSize: "22px", color: "#E94A4A" }}
-            />
-            <p style={{ color: "#E94A4A" }}>Logout</p>
-          </div>
-        </Link>
+        <div onClick={logout}>
+          <FontAwesomeIcon
+            icon={faSignOut}
+            style={{ fontSize: "22px", color: "#E94A4A" }}
+          />
+          <p style={{ color: "#E94A4A" }}>Logout</p>
+        </div>
       </div>
       <div className="main-container">
         <div className="questions-navbar">
@@ -115,7 +148,3 @@ export default function Home() {
     </div>
   );
 }
-
-Home.propTypes = {
-  name: PropTypes.string.isRequired,
-};

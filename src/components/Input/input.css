@@ -1,5 +1,4 @@
-.input-container{
-    width: 223px;
+.input-container {
     border-radius: 5px;
     background-color: #F7F5F5;
     display: flex;
@@ -14,7 +13,7 @@
     background: #EAEAEA;
 }
 
-input{
+input {
     background-color: #F7F5F5;
     border: none;
     padding-left: 9px;
@@ -22,7 +21,7 @@ input{
     font-weight: 500;
 }
 
-input:focus{
+input:focus {
     outline: none;
 }
 

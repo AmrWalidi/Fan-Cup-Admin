@@ -1,16 +1,35 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import './answer-container.css'
+import "./answer-container.css";
 
-export default function AnswerContainer({ number }) {
+export default function AnswerContainer({
+  number,
+  correctAnswer,
+  handleOption,
+  handleCorrectAnswer,
+}) {
   const [answer, setAnswer] = useState("");
+
+  const answerChange = (value) => {
+    setAnswer(value);
+    if (correctAnswer) {
+      handleCorrectAnswer(value);
+    }
+    handleOption(value);
+  };
   return (
     <div>
       <input
-        className="answer"
         type="text"
-        placeholder= {number == undefined ? "Answer" : "Answer " + number}
-        onChange={(e) => setAnswer(e.target.value)}
+        placeholder={
+          number == undefined
+            ? "Answer"
+            : correctAnswer
+            ? "correct answer"
+            : "Answer " + number
+        }
+        onChange={(e) => answerChange(e.target.value)}
+        className={correctAnswer ? "answer correct-answer" : "answer"}
         value={answer}
       />
     </div>
@@ -19,5 +38,8 @@ export default function AnswerContainer({ number }) {
 
 AnswerContainer.propTypes = {
   number: PropTypes.number,
+  options: PropTypes.array,
+  handleOption: PropTypes.func,
+  correctAnswer: PropTypes.bool,
+  handleCorrectAnswer: PropTypes.func,
 };
-

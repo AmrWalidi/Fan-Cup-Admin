@@ -1,6 +1,5 @@
 .add-answers-button {
     cursor: pointer;
-    margin: 10px 35px;
     border-radius: 5px;
     padding: 7px 24px;
     background: #4CA7A9;
@@ -13,15 +12,22 @@
 .answers-addition-section {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 25px;
 }
 
 .answers-panel {
     width: 883px;
     height: 183px;
+    padding: 10px;
     border-radius: 6px;
     border: 1px solid #C8C8C8;
     background: #FCFCFC;
+}
+
+.answers-panel p {
+    color: #4B4B4B;
+    font-weight: bold;
+    font-size: 16px;
 }
 
 .add-enter-answers-question-button {
