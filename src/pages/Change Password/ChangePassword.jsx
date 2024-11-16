@@ -4,7 +4,8 @@ import { auth } from "../../firebase/firebase";
 import { toast } from "react-toastify";
 import { reauthenticateWithCredential, updatePassword } from "firebase/auth";
 import { EmailAuthProvider } from "firebase/auth/web-extension";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import Header from "../../components/header/Header";
 
 export default function ChangePassword() {
   const bodyStyle = {
@@ -20,6 +21,8 @@ export default function ChangePassword() {
   const [newPassword, setNewPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const {name} = location.state
 
   const changePassword = (e) => {
     e.preventDefault();
@@ -53,6 +56,7 @@ export default function ChangePassword() {
 
   return (
     <div>
+      <Header name={name} />
       <div className="change-password-main-container">
         <p className="change-password-title">Change Password</p>
         <form className="input-list" onSubmit={changePassword}>
