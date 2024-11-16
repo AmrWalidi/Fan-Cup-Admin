@@ -33,20 +33,19 @@ export default function Login() {
         }
       });
       window.location.href = "/home";
-    } catch (error) {
-      toast.error(error.message, {
+    } catch {
+      toast.error("invalid credentials", {
         position: "top-center",
+        autoClose: 2000,
       });
     }
   };
 
-  
-
   return (
-    <div className="login-panel">
+    <div className="login-container">
       <img className="logo" src={logo} alt="Fan Cup logo" />
-      <p className="title">Login</p>
-      <form className="input-fields" onSubmit={login}>
+      <p className="login-title">Login</p>
+      <form className="login-input-fields" onSubmit={login}>
         <Input
           type="email"
           icon={faEnvelope}

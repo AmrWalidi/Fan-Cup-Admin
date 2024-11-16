@@ -25,7 +25,6 @@ export default function Home() {
   const location = useLocation();
   const [name, setName] = useState("");
   const [selectedItem, setSelectedItem] = useState("Enter a number");
-  const [prevTranslateX, setPrevTranslate] = useState(0);
 
   useEffect(() => {
     if (location.state != null) {
@@ -52,7 +51,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchUserData();
-  },[]);
+  }, []);
 
   const logout = async () => {
     try {
@@ -65,17 +64,6 @@ export default function Home() {
     }
   };
 
-  const navigate = (section) => {
-    setSelectedItem(section.textContent);
-    const effect = document.getElementById("selected-nav-item");
-
-    const effectRect = effect.getBoundingClientRect();
-    const sectionRect = section.getBoundingClientRect();
-
-    const translateX = sectionRect.left - effectRect.left + prevTranslateX;
-    effect.style.transform = `translate(${translateX + prevTranslateX}px, -5%)`;
-    setPrevTranslate(translateX);
-  };
 
   const dropdown = () => {
     const dropdown = document.getElementById("dropdown-panel");
@@ -125,15 +113,14 @@ export default function Home() {
         </div>
       </div>
       <div className="main-container">
-        <div className="questions-navbar">
-          <div id="selected-nav-item"></div>
-          <p className="nav-items" onClick={(e) => navigate(e.target)}>
+        <div className="question-type-navbar">
+          <p className="nav-items" onClick={(e) => setSelectedItem(e.target.textContent)}>
             Enter a number
           </p>
-          <p className="nav-items" onClick={(e) => navigate(e.target)}>
+          <p className="nav-items" onClick={(e) => setSelectedItem(e.target.textContent)}>
             Multiple-choice
           </p>
-          <p className="nav-items" onClick={(e) => navigate(e.target)}>
+          <p className="nav-items" onClick={(e) => setSelectedItem(e.target.textContent)}>
             Enter answers
           </p>
         </div>

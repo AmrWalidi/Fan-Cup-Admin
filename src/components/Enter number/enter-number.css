@@ -1,4 +1,9 @@
-.number-input {
+.answer-difficulty-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.numbered-answer {
     display: block;
     border: 1px solid #C8C8C8;
     background: #FCFCFC;
@@ -8,11 +13,11 @@
     font-size: 16px;
 }
 
-.number-input:focus {
+.numbered-answer:focus {
     outline: none;
 }
 
-.add-enter-number-question-button {
+.enter-number-add-button {
     cursor: pointer;
     padding: 7px 24px;
     border: 0;
@@ -22,4 +27,32 @@
     font-size: 20px;
     font-weight: 400;
     margin-top: 50px;
+}
+
+@media only screen and (max-width: 800px) {
+
+    .enter-number-add-button {
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 17px;
+        margin-top: 30px;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+
+    .answer-difficulty-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .numbered-answer {
+        font-size: 12px;
+    }
+
+    .enter-number-add-button {
+        width: 100%;
+        margin-top: 40px;
+    }
 }

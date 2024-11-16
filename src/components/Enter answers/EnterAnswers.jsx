@@ -13,8 +13,14 @@ export default function EnterAnswers() {
   const [difficulty, setDifficulty] = useState("");
 
   const addAnswer = () => {
-    setAnwserList([...answerList, answer]);
-    console.log(answerList);
+    if (difficulty == "") {
+      toast.error("select question difficultt", {
+        position: "top-center",
+        autoClose: 2000,
+      });
+    } else {
+      setAnwserList([...answerList, answer]);
+    }
   };
 
   const sendQuestion = async (e) => {
@@ -29,10 +35,12 @@ export default function EnterAnswers() {
       });
       toast.success("Question have been saved succeessfully", {
         position: "top-center",
+        autoClose: 2000,
       });
     } catch (error) {
       toast.error(error.message, {
         position: "top-center",
+        autoClose: 2000,
       });
     }
   };
@@ -63,7 +71,7 @@ export default function EnterAnswers() {
         <p>{answerList.join(", ")}</p>
       </div>
       <button
-        className="add-enter-answers-question-button"
+        className="enter-answers-add-button"
         onClick={sendQuestion}
       >
         Add question

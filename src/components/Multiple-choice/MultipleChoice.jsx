@@ -39,7 +39,7 @@ export default function MultipleChoice() {
     <div>
       <QuestionContainer handleQuestion={setQuestion} />
       <form onSubmit={sendQuestion}>
-        <div className="answers">
+        <div className="options">
           <AnswerContainer number={1} handleOption={setOption_1} />
           <AnswerContainer number={2} handleOption={setOption_2} />
           <AnswerContainer number={3} handleOption={setOption_3} />
@@ -64,7 +64,7 @@ export default function MultipleChoice() {
           <option value="Super Hard">Super Hard</option>
         </select>
         <input
-          className="add-multiple-choice-question-button"
+          className="multiple-choice-add-button"
           value="Add question"
           type="submit"
         />

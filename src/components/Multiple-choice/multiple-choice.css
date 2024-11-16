@@ -1,11 +1,12 @@
-.answers {
+.options {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2);
     gap: 26px 40px;
+    margin-bottom: 20px;
 }
 
-.add-multiple-choice-question-button {
+.multiple-choice-add-button {
     display: block;
     cursor: pointer;
     padding: 7px 24px;
@@ -16,4 +17,35 @@
     font-size: 20px;
     font-weight: 400;
     margin-top: 50px;
+}
+
+@media only screen and (max-width: 800px) {
+    .options {
+        gap: 15px 34px;
+    }
+
+    .multiple-choice-add-button {
+        font-size: 15px;
+    }
+
+    .multiple-choice-add-button {
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+}
+@media only screen and (max-width: 500px) {
+    .options {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .multiple-choice-add-button {
+        width: 100%;
+        border: 0;
+        margin-top: 50px;
+    }
+
 }

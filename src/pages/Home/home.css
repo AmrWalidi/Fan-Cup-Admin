@@ -51,14 +51,13 @@
 
 #dropdown-panel div p {
     display: flex;
-    gap: 10px;
     align-items: center;
     font-size: 20px;
     font-weight: 600;
     margin: 0;
 }
 
-.questions-navbar {
+.question-type-navbar {
     display: flex;
     gap: 40px;
 }
@@ -66,19 +65,8 @@
 .nav-items {
     cursor: pointer;
     color: #6A6A6A;
-    font-size: 20px;
+    font-size: 1.25rem;
     font-weight: 500;
-}
-
-#selected-nav-item {
-    position: absolute;
-    transform: translate(-10%, -5%);
-    width: 171px;
-    height: 33px;
-    border-radius: 3px;
-    background: rgba(137, 235, 173, 0.62);
-    margin: 20px 0;
-    transition: transform 0.3s ease;
 }
 
 .main-container {
@@ -86,7 +74,7 @@
     flex-direction: column;
     align-items: center;
     width: 75%;
-    height: 68%;
+    height: 80%;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -103,4 +91,74 @@
     font-size: 16px;
     border-radius: 5px;
     border: 1px solid #ccc;
+}
+
+@media only screen and (max-width: 800px) {
+
+    :root {
+        font-size: 12px;
+    }
+
+    .home-logo {
+        width: 50px;
+        height: 50px;
+    }
+
+    .profile-container {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+    }
+
+    #dropdown-panel {
+        right: 3%;
+    }
+
+    #dropdown-panel div {
+        padding: 12px 24px;
+    }
+
+    #dropdown-panel div p {
+        font-size: 15px;
+    }
+
+    .question-type-navbar {
+        gap: 20px;
+    }
+
+    .main-container {
+        height: fit-content;
+        padding-bottom: 10px;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    :root {
+        font-size: 8px;
+    }
+
+    #dropdown-panel {
+        right: 5%;
+    }
+
+    #dropdown-panel div {
+        padding: 8px 24px;
+    }
+
+    #dropdown-panel div p {
+        font-size: 12px;
+    }
+
+    .question-type-navbar {
+        gap: 20px;
+    }
+
+    .difficulty-dropdown {
+        font-size: 12px;
+    }
+
+    .main-container {
+        height: fit-content;
+        padding-bottom: 10px;
+    }
 }

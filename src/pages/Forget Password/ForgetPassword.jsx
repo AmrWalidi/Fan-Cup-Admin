@@ -22,21 +22,23 @@ export default function ForgetPassword() {
     try {
       await sendPasswordResetEmail(auth, email);
       window.location.href = "/password-sent";
-    } catch (error) {
-      toast.error(error.message, {
+    } catch {
+      toast.error("wrong email", {
         position: "top-center",
       });
     }
   };
 
   return (
-    <div className="forget-password-panel">
+    <div className="forget-password-container">
       <FontAwesomeIcon
         icon={faLock}
         style={{ fontSize: "87px", color: "#302F2F" }}
       />
       <p className="forget-password-title">Forget Password ?</p>
-      <p className="subtitle">You can reset your password here</p>
+      <p className="forget-password-subtitle ">
+        You can reset your password here
+      </p>
       <form onSubmit={passwordReset}>
         <Input
           type="email"

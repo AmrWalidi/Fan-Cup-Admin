@@ -18,7 +18,7 @@ export default function Input({ type, icon, placeholder, onUpdateInput }) {
         <FontAwesomeIcon icon={icon} color="#302F2F" size={24} />
       </div>
       <input
-        className="input"
+        className="form-input"
         type={type}
         placeholder={placeholder}
         value={value}

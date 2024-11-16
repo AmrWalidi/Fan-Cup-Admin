@@ -13,7 +13,7 @@
     background: #EAEAEA;
 }
 
-input {
+.form-input {
     background-color: #F7F5F5;
     border: none;
     padding-left: 9px;
@@ -21,11 +21,11 @@ input {
     font-weight: 500;
 }
 
-input:focus {
+.form-input:focus {
     outline: none;
 }
 
-input::placeholder {
+.form-input::placeholder {
     color: #919090;
     font-family: "Inter";
     font-size: 14px;

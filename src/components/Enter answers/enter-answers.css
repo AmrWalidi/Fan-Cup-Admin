@@ -13,10 +13,14 @@
     display: flex;
     align-items: center;
     gap: 25px;
+    margin-bottom: 15px;
 }
 
 .answers-panel {
-    width: 883px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 65vw;
     height: 183px;
     padding: 10px;
     border-radius: 6px;
@@ -30,7 +34,7 @@
     font-size: 16px;
 }
 
-.add-enter-answers-question-button {
+.enter-answers-add-button {
     cursor: pointer;
     padding: 7px 24px;
     border: 0;
@@ -39,5 +43,47 @@
     color: #FFFBFB;
     font-size: 20px;
     font-weight: 400;
-    margin-top: 15px;
+    margin-top: 10px;
+}
+
+@media only screen and (max-width: 1050px) {
+    .add-answers-button {
+        font-size: 12px;
+    }
+
+    .answers-addition-section {
+        margin: 0 30px 20px;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .enter-answers-add-button {
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+@media only screen and (max-width: 500px) {
+
+    .add-answers-button {
+        font-size: 12px;
+    }
+
+    .answers-addition-section {
+        margin: 0 0 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .enter-answers-add-button {
+        
+        width: 90%;
+        padding: 7px;
+        border: 0;
+        font-size: 15px;
+        margin-top: 15px;
+    }
 }

@@ -1,5 +1,5 @@
 .answer {
-    width: 409px;
+    width: 30vw;
     height: 20px;
     border: 1px solid #C8C8C8;
     background: #FCFCFC;
@@ -24,4 +24,21 @@
 
 .correct-answer:focus {
     outline: none;
+}
+
+@media only screen and (max-width: 800px){
+    .answer {
+        padding: 8px 0 8px 20px;
+        font-size: 15px;
+    }
+}
+
+@media only screen and (max-width: 500px){
+    .answer {
+        font-size: 12px;
+    }
+
+    .answer {
+        width: 60vw;
+    }
 }

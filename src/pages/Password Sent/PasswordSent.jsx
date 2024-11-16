@@ -15,7 +15,7 @@ export default function PasswordSent() {
       <div className="check-container">
         <FontAwesomeIcon
           icon={faCheck}
-          style={{ fontSize: "52px", color: "white" }}
+          style={{ fontSize: "60px", color: "white" }}
         />
       </div>
       <p className="password-sent-title">Password Sent Successfully</p>

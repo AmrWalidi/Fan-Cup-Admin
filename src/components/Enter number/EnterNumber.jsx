@@ -39,9 +39,9 @@ export default function EnterNumber() {
   return (
     <form onSubmit={sendQuestion}>
       <QuestionContainer handleQuestion={setQuestion} />
-      <div style={{ display: "flex", gap: "10px" }}>
+      <div className="answer-difficulty-container">
         <input
-          className="number-input"
+          className="numbered-answer"
           type="number"
           placeholder="Number"
           onChange={(e) => changeAnswer(e.target.value)}
@@ -62,7 +62,7 @@ export default function EnterNumber() {
         </select>
       </div>
       <input
-        className="add-enter-number-question-button"
+        className="enter-number-add-button"
         value="Add question"
         type="submit"
       />
