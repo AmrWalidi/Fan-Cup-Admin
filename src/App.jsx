@@ -1,27 +1,32 @@
 import { useEffect, useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { auth } from "./firebase/firebase";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/ReactToastify.css";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import ForgetPassword from "./pages/Forget Password/ForgetPassword";
 import PasswordSent from "./pages/Password Sent/PasswordSent";
 import ChangePassword from "./pages/Change Password/ChangePassword";
+import Loader from "./pages/Loader/Loader";
+import "./pages/Loader/loader.css";
 import "./index.css";
-import { auth } from "./firebase/firebase";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/ReactToastify.css";
 
 export default function App() {
   const [user, setUser] = useState();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      if (user.remember_me) {
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
         setUser(user);
       } else {
         setUser(null);
       }
+
+      setLoading(false);
     });
-  });
+  }, []);
 
   const router = createBrowserRouter([
     {
@@ -50,7 +55,9 @@ export default function App() {
     },
   ]);
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <div>
       <RouterProvider router={router} />
       <ToastContainer />
