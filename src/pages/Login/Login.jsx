@@ -1,14 +1,13 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../../firebase/firebase";
+import { auth } from "../../firebase/firebase";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import Input from "../../components/Input/Input";
 import logo from "/logo.svg";
 import "./login.css";
 import { toast } from "react-toastify";
-import { doc, updateDoc } from "firebase/firestore";
 
 export default function Login() {
   const bodyStyle = {
@@ -19,20 +18,13 @@ export default function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
+  const navigate = useNavigate();
 
   const login = async (e) => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      auth.onAuthStateChanged(async (user) => {
-        if (user) {
-          await updateDoc(doc(db, "Admins", user.uid), {
-            remember_me: rememberMe,
-          });
-        }
-      });
-      window.location.href = "/home";
+      navigate("/home");
     } catch {
       toast.error("invalid credentials", {
         position: "top-center",
@@ -59,14 +51,6 @@ export default function Login() {
           onUpdateInput={setPassword}
         />
         <div className="helpers">
-          <div className="remember-me">
-            <input
-              type="checkbox"
-              value={rememberMe}
-              onChange={(e) => setRememberMe(e.target.value)}
-            />
-            <span> Remember Me</span>
-          </div>
           <Link to="/forget-password" style={{ textDecoration: "none" }}>
             <div className="forget-password-button">
               <p>Forget Password?</p>

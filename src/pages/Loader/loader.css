@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+
+.loading-container {
+    display: flex;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    align-items: center;
+    gap: 20px;
+}
+
+
+.brand {
+    font-family: "Bungee", sans-serif;
+    font-size: 55px;
+    font-weight: bold;
+    color: #202020;
+}
+
+.loading-container img {
+    width: 150px;
+    height: 150px;
+}

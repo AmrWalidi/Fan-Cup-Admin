@@ -2,14 +2,15 @@ import { useState } from "react";
 import "./question-container.css";
 import PropTypes from "prop-types";
 
-export default function QuestionContainer({ handleQuestion }) {
+export default function QuestionContainer({ handleQuestion, questionData }) {
   const [counter, setCounter] = useState(0);
-  const [question, setQestion] = useState("");
   const characterCounter = (value) => {
     if (value.length <= 100) {
       setCounter(value.length);
-      setQestion(value);
-      handleQuestion(value);
+      handleQuestion((prev) => ({
+        ...prev,
+        text: value,
+      }));
     }
   };
   return (
@@ -19,7 +20,7 @@ export default function QuestionContainer({ handleQuestion }) {
         rows={2}
         placeholder="Question"
         onChange={(e) => characterCounter(e.target.value)}
-        value={question}
+        value={questionData.text}
       />
       <p className="counter">{counter}/100</p>
     </div>
@@ -28,4 +29,5 @@ export default function QuestionContainer({ handleQuestion }) {
 
 QuestionContainer.propTypes = {
   handleQuestion: PropTypes.func.isRequired,
+  questionData: PropTypes.object.isRequired,
 };

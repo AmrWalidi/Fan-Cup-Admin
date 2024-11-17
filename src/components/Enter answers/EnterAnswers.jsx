@@ -1,59 +1,154 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AnswerContainer from "../Answer container/AnswerContainer";
 import QuestionContainer from "../Question container/QuestionContainer";
 import "./enter-answers.css";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
 import { toast } from "react-toastify";
+import Multiselect from "multiselect-react-dropdown";
 
 export default function EnterAnswers() {
-  const [question, setQuestion] = useState("");
-  const [answer, setAnswer] = useState();
-  const [answerList, setAnwserList] = useState([]);
-  const [difficulty, setDifficulty] = useState("");
-
+  const [correctAnswers, setCorrectAnswers] = useState([]);
   const addAnswer = () => {
-    if (difficulty == "") {
-      toast.error("select question difficultt", {
-        position: "top-center",
-        autoClose: 2000,
-      });
-    } else {
-      setAnwserList([...answerList, answer]);
+    setCorrectAnswers([...correctAnswers, questionData.correct_answer[0]]);
+  };
+
+  const [questionData, setQuestionData] = useState({
+    text: "",
+    question_type: 3,
+    options: [],
+    correct_answer: [],
+    difficulty_level: "",
+    categories: [],
+  });
+  const [categories, setCategories] = useState();
+
+  const getCategories = async () => {
+    try {
+      const res = await getDocs(collection(db, "Category"));
+      if (!res.empty) {
+        const documnets = res.docs.map((doc) => ({
+          ...doc.data(),
+        }));
+        setCategories(documnets);
+      }
+    } catch (error) {
+      console.log(error.message);
     }
+  };
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
+  const checkInput = (inputs) => {
+    if (inputs.text == "") {
+      return false;
+    }
+    if (inputs.correct_answer.length === 0) {
+      return false;
+    }
+    if (inputs.difficulty_level == "") {
+      return false;
+    }
+    if (inputs.categories.length === 0) {
+      return false;
+    }
+    return true;
+  };
+
+  const updatedQuestionData = {
+    ...questionData,
+    correct_answer: correctAnswers,
   };
 
   const sendQuestion = async (e) => {
     e.preventDefault();
-    try {
-      await addDoc(collection(db, "Questions"), {
-        question_type: 3,
-        text: question,
-        options: [""],
-        correct_answer: answerList,
-        difficulty_level: difficulty,
-      });
-      toast.success("Question have been saved succeessfully", {
+    const inValid = checkInput(updatedQuestionData);
+
+    if (inValid) {
+      try {
+        await addDoc(collection(db, "Questions"), updatedQuestionData);
+        toast.success("Question have been saved succeessfully", {
+          position: "top-center",
+        });
+        setQuestionData({
+          text: "",
+          question_type: 3,
+          options: [],
+          correct_answer: [],
+          difficulty_level: "",
+          categories: [],
+        });
+        setCorrectAnswers([]);
+      } catch (error) {
+        toast.error(error.message, {
+          position: "top-center",
+        });
+      }
+    } else {
+      toast.error("Fill all fields", {
         position: "top-center",
-        autoClose: 2000,
-      });
-    } catch (error) {
-      toast.error(error.message, {
-        position: "top-center",
-        autoClose: 2000,
       });
     }
   };
 
   return (
     <div>
-      <QuestionContainer handleQuestion={setQuestion} />
+      <QuestionContainer
+        handleQuestion={setQuestionData}
+        questionData={questionData}
+      />
       <div className="answers-addition-section">
-        <AnswerContainer correctAnswer={true} handleCorrectAnswer={setAnswer} />
+        <AnswerContainer
+          correctAnswer={true}
+          handleAnswers={setQuestionData}
+          questionData={questionData}
+        />
+        <button className="add-answers-button" onClick={addAnswer}>
+          Add answer
+        </button>
+      </div>
+      <div className="answers-panel">
+        <p>{correctAnswers.join(", ")}</p>
+      </div>
+      <Multiselect
+        options={categories}
+        displayValue="name"
+        placeholder="Select categories"
+        onSelect={(selectedList) => {
+          setQuestionData((prev) => ({
+            ...prev,
+            categories: selectedList.map((it) => it.id),
+          }));
+        }}
+        onRemove={(selectedList) => {
+          setQuestionData((prev) => ({
+            ...prev,
+            categories: selectedList.map((it) => it.id),
+          }));
+        }}
+        style={{
+          searchBox: {
+            background: "#FCFCFC",
+            color: "#4B4B4B",
+            fontWeight: "bold",
+            fontSize: "16px",
+            marginTop: "10px",
+            padding: "10px",
+          },
+        }}
+      />
+      <div className="difficulty-add-button-container">
         <select
           className="difficulty-dropdown"
-          value={difficulty}
-          onChange={(e) => setDifficulty(e.target.value)}
+          value={questionData.difficulty_level}
+          onChange={(e) =>
+            setQuestionData((prev) => ({
+              ...prev,
+              difficulty_level: e.target.value,
+            }))
+          }
         >
           <option value="" disabled>
             -- Select question difficulty --
@@ -63,19 +158,10 @@ export default function EnterAnswers() {
           <option value="Hard">Hard</option>
           <option value="Super Hard">Super Hard</option>
         </select>
-        <button className="add-answers-button" onClick={addAnswer}>
-          Add answer
+        <button className="enter-answers-add-button" onClick={sendQuestion}>
+          Add question
         </button>
       </div>
-      <div className="answers-panel">
-        <p>{answerList.join(", ")}</p>
-      </div>
-      <button
-        className="enter-answers-add-button"
-        onClick={sendQuestion}
-      >
-        Add question
-      </button>
     </div>
   );
 }

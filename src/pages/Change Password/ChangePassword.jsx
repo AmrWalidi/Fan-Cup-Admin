@@ -12,7 +12,7 @@ export default function ChangePassword() {
     background: "linear-gradient(180deg, #FFF 0%, #89B89C 100%)",
     minHeight: "100vh",
     margin: 0,
-    padding: "10px 20px",
+    padding: "0 20px",
   };
   const body = document.getElementsByTagName("body")[0];
   Object.assign(body.style, bodyStyle);
@@ -52,6 +52,18 @@ export default function ChangePassword() {
         }
       }
     });
+  };
+
+  window.onclick = function (e) {
+    const dropdown = document.getElementById("dropdown-panel");
+    if (
+      !(
+        e.target.matches(".profile-container") ||
+        e.target.matches(".profile-container p")
+      )
+    ) {
+      dropdown.style.maxHeight = null;
+    }
   };
 
   return (

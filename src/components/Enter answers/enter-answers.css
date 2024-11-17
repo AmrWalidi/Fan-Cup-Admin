@@ -4,7 +4,7 @@
     padding: 7px 24px;
     background: #4CA7A9;
     color: #FFF;
-    font-size: 20px;
+    font-size: 17px;
     font-weight: 600;
     border: 0;
 }
@@ -12,6 +12,7 @@
 .answers-addition-section {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 25px;
     margin-bottom: 15px;
 }
@@ -20,12 +21,12 @@
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-    width: 65vw;
     height: 183px;
     padding: 10px;
     border-radius: 6px;
     border: 1px solid #C8C8C8;
     background: #FCFCFC;
+    margin-bottom: 10px;
 }
 
 .answers-panel p {
@@ -43,7 +44,13 @@
     color: #FFFBFB;
     font-size: 20px;
     font-weight: 400;
-    margin-top: 10px;
+}
+
+.difficulty-add-button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
 }
 
 @media only screen and (max-width: 1050px) {
@@ -55,12 +62,6 @@
         margin: 0 30px 20px;
         flex-wrap: wrap;
         gap: 20px;
-    }
-
-    .enter-answers-add-button {
-        position: relative;
-        left: 50%;
-        transform: translateX(-50%);
     }
 }
 
@@ -79,11 +80,18 @@
     }
 
     .enter-answers-add-button {
-        
+
         width: 90%;
         padding: 7px;
         border: 0;
         font-size: 15px;
         margin-top: 15px;
+    }
+
+    .difficulty-add-button-container {
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
     }
 }

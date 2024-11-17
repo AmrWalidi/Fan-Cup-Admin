@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../firebase/firebase";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function ForgetPassword() {
   const bodyStyle = {
@@ -16,12 +17,13 @@ export default function ForgetPassword() {
   Object.assign(body.style, bodyStyle);
 
   const [email, setEmail] = useState("");
+  const navigate = useNavigate();
 
   const passwordReset = async (e) => {
     e.preventDefault();
     try {
       await sendPasswordResetEmail(auth, email);
-      window.location.href = "/password-sent";
+      navigate("/password-sent");
     } catch {
       toast.error("wrong email", {
         position: "top-center",
