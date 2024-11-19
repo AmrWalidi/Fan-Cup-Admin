@@ -53,7 +53,6 @@ export default function Home() {
 
   const selectItem = (e) => {
     const items = document.querySelectorAll(".nav-items");
-    console.log(items)
     items.forEach((it) => it.classList.remove("selected-type"));
     e.target.classList.add("selected-type");
     setSelectedItem(e.target.textContent);

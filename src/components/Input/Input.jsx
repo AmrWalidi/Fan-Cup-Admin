@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
 import "./input.css";
-import { useState } from "react"; 
+import { useState } from "react";
 
 export default function Input({ type, icon, placeholder, onUpdateInput }) {
   const [value, setValue] = useState("");
@@ -31,8 +31,7 @@ export default function Input({ type, icon, placeholder, onUpdateInput }) {
 
 Input.propTypes = {
   type: PropTypes.string.isRequired,
-  icon: PropTypes.element,
+  icon: PropTypes.object,
   placeholder: PropTypes.string,
   onUpdateInput: PropTypes.func,
 };
-
