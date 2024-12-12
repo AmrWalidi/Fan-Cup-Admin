@@ -1,0 +1,150 @@
+.question-searchbar {
+    display: flex;
+    justify-content: center;
+}
+
+.question-searchbar input {
+    font-size: 20px;
+    color: #4B4B4B;
+    border: none;
+    width: 100%;
+    padding: 11px 35px;
+    background-color: #FFFCFC;
+    border-radius: 20px;
+    width: 825px;
+}
+
+.question-searchbar input::placeholder {
+    color: #848484;
+}
+
+.question-searchbar input:focus {
+    outline: none;
+}
+
+.question-list-section {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.editable-question-container {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    width: 800px;
+}
+
+#question-header {
+    cursor: pointer;
+    flex-direction: row;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 2px 40px 2px 10px;
+    background-color: #FCFCFC;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+#question-header:hover {
+    background-color: #f4f3f3;
+}
+
+#question-header-text {
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #302F2F;
+}
+
+#question-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    background-color: #F7F7F7;
+    padding-right: 15px;
+    padding-left: 20px;
+    max-height: 0;
+    overflow: hidden;
+}
+
+.question-text-container {
+    padding-top: 30px;
+    display: flex;
+    align-items: end;
+    gap: 30px;
+}
+
+.question-text-container textarea {
+    font-family: "Inter";
+    font-size: 18px;
+    padding: 10px;
+    color: #302F2F;
+    border-width: 0px 0px 1px;
+    border-color: #646464;
+    background-color: transparent;
+    height: fit-content;
+    word-wrap: break-word;
+    resize: none;
+    width: 625px;
+}
+
+.focused-input {
+    background-color: white;
+    border-width: 2px;
+    border-color: black;
+    border-radius: 4px;
+}
+
+.editable-answer-container {
+    display: flex;
+    gap: 25px;
+    align-items: end;
+}
+
+.editable-answer-container input {
+    width: fit-content;
+    font-size: 18px;
+    color: #302F2F;
+    font-weight: 500;
+    background-color: transparent;
+    border-width: 0px 0px 1px;
+    border-color: #646464;
+}
+
+#question-detail .button-list {
+    display: flex;
+    gap: 20px;
+    justify-content: end;
+    padding-bottom: 20px;
+}
+
+#question-detail .button-list button {
+    padding: 3px 10px;
+    color: #FFF;
+    font-family: "Inter";
+    font-size: 20px;
+    font-weight: 500;
+    border: none;
+}
+
+#question-detail .button-list button {
+    padding: 3px 10px;
+    color: #FFF;
+    font-family: "Inter";
+    font-size: 20px;
+    font-weight: normal;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edit-button {
+    background-color: #4CA974;
+}
+
+.delete-button {
+    background-color: #F64F4F;
+}

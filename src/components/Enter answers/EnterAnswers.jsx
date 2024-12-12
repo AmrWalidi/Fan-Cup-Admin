@@ -65,7 +65,7 @@ export default function EnterAnswers() {
   const sendQuestion = async (e) => {
     e.preventDefault();
     const inValid = checkInput(updatedQuestionData);
-
+    
     if (inValid) {
       try {
         await addDoc(collection(db, "Questions"), updatedQuestionData);

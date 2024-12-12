@@ -51,9 +51,29 @@ export default function EnterNumber() {
     return true;
   };
 
+  const convertToLowerCase = (data) => {
+    for (let key in data) {
+      if (typeof data[key] == "string") {
+        data[key] = data[key].toLowerCase();
+        console.log("Hello");
+      }
+
+      if (data[key] instanceof Array) {
+        data[key].map((it) => {
+          if (typeof it == "string") {
+            it.toLowerCase();
+            console.log("Hello");
+          }
+        });
+      }
+    }
+  };
+
   const sendQuestion = async (e) => {
     e.preventDefault();
     const isValid = checkInput(questionData);
+
+    convertToLowerCase(questionData);
 
     if (isValid) {
       try {

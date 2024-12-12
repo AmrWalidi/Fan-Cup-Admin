@@ -11,6 +11,7 @@ import ChangePassword from "./pages/Change Password/ChangePassword";
 import Loader from "./pages/Loader/Loader";
 import "./pages/Loader/loader.css";
 import "./index.css";
+import QuestionList from "./pages/Question List/QuestionList";
 
 export default function App() {
   const [user, setUser] = useState();
@@ -52,6 +53,10 @@ export default function App() {
     {
       path: "/change-password",
       element: <ChangePassword />,
+    },
+    {
+      path: "/question-list",
+      element: <QuestionList />,
     },
   ]);
 

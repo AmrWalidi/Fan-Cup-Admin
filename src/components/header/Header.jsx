@@ -4,7 +4,7 @@ import { auth } from "../../firebase/firebase";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLock, faSignOut } from "@fortawesome/free-solid-svg-icons";
+import { faLock, faSignOut, faList } from "@fortawesome/free-solid-svg-icons";
 import "./header.css";
 
 export default function Header({ name }) {
@@ -37,6 +37,12 @@ export default function Header({ name }) {
     });
   };
 
+  const navigateToQuestionList = () => {
+    navigate("/question-list", {
+      state: { name: name },
+    });
+  };
+
   const logout = async () => {
     try {
       await auth.signOut();
@@ -57,6 +63,13 @@ export default function Header({ name }) {
         </div>
       </div>
       <div id="dropdown-panel">
+        <div onClick={navigateToQuestionList}>
+          <FontAwesomeIcon
+            icon={faList}
+            style={{ fontSize: "22px", color: "#4B4B4B" }}
+          />
+          <p style={{ color: "#4B4B4B" }}>Question</p>
+        </div>
         <div onClick={navigateToChangePassword}>
           <FontAwesomeIcon
             icon={faLock}
@@ -64,7 +77,6 @@ export default function Header({ name }) {
           />
           <p style={{ color: "#4B4B4B" }}>Change password</p>
         </div>
-
         <div onClick={logout}>
           <FontAwesomeIcon
             icon={faSignOut}
