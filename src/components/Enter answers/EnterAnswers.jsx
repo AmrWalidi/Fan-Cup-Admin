@@ -6,6 +6,7 @@ import { addDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
 import { toast } from "react-toastify";
 import Multiselect from "multiselect-react-dropdown";
+import { checkInput, convertToLowerCase } from "../../functions/questions";
 
 export default function EnterAnswers() {
   const [correctAnswers, setCorrectAnswers] = useState([]);
@@ -41,22 +42,6 @@ export default function EnterAnswers() {
     getCategories();
   }, []);
 
-  const checkInput = (inputs) => {
-    if (inputs.text == "") {
-      return false;
-    }
-    if (inputs.correct_answer.length === 0) {
-      return false;
-    }
-    if (inputs.difficulty_level == "") {
-      return false;
-    }
-    if (inputs.categories.length === 0) {
-      return false;
-    }
-    return true;
-  };
-
   const updatedQuestionData = {
     ...questionData,
     correct_answer: correctAnswers,
@@ -65,8 +50,9 @@ export default function EnterAnswers() {
   const sendQuestion = async (e) => {
     e.preventDefault();
     const inValid = checkInput(updatedQuestionData);
-    
+
     if (inValid) {
+      convertToLowerCase(updatedQuestionData);
       try {
         await addDoc(collection(db, "Questions"), updatedQuestionData);
         toast.success("Question have been saved succeessfully", {

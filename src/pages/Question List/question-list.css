@@ -12,6 +12,7 @@
     background-color: #FFFCFC;
     border-radius: 20px;
     width: 825px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
 .question-searchbar input::placeholder {
@@ -24,9 +25,11 @@
 
 .question-list-section {
     margin-top: 40px;
+    margin-bottom: 5px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 4px;
 }
 
 .editable-question-container {
@@ -36,7 +39,7 @@
     width: 800px;
 }
 
-#question-header {
+.question-header {
     cursor: pointer;
     flex-direction: row;
     display: flex;
@@ -47,11 +50,11 @@
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
-#question-header:hover {
+.question-header:hover {
     background-color: #f4f3f3;
 }
 
-#question-header-text {
+.question-header-text {
     font-weight: 600;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -68,6 +71,7 @@
     padding-left: 20px;
     max-height: 0;
     overflow: hidden;
+    transition: max-height 0.5s ease;
 }
 
 .question-text-container {
@@ -91,7 +95,7 @@
     width: 625px;
 }
 
-.focused-input {
+.question-text-container textarea:focus {
     background-color: white;
     border-width: 2px;
     border-color: black;
@@ -106,12 +110,25 @@
 
 .editable-answer-container input {
     width: fit-content;
+    padding: 10px;
     font-size: 18px;
     color: #302F2F;
     font-weight: 500;
     background-color: transparent;
     border-width: 0px 0px 1px;
     border-color: #646464;
+}
+
+.editable-answer-container input:focus {
+    background-color: white;
+    border-width: 2px;
+    border-color: black;
+    border-radius: 4px;
+}
+
+.editable-answer-container p {
+    font-weight: 500;
+    text-transform: capitalize;
 }
 
 #question-detail .button-list {
@@ -121,14 +138,6 @@
     padding-bottom: 20px;
 }
 
-#question-detail .button-list button {
-    padding: 3px 10px;
-    color: #FFF;
-    font-family: "Inter";
-    font-size: 20px;
-    font-weight: 500;
-    border: none;
-}
 
 #question-detail .button-list button {
     padding: 3px 10px;
@@ -147,4 +156,30 @@
 
 .delete-button {
     background-color: #F64F4F;
+}
+
+@media only screen and (max-width: 500px) {
+    .question-searchbar input {
+        margin-top: 20px;
+        font-size: 16px;
+        width: 300px;
+    }
+
+
+    .editable-question-container {
+        width: 350px;
+    }
+
+    .question-header-text {
+        font-size: 14px;
+    }
+
+    .question-text-container textarea {
+        font-size: 14px;
+    }
+
+    #question-detail .button-list button {
+        font-size: 16px;
+    }
+
 }

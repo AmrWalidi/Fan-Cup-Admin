@@ -24,7 +24,6 @@ export default function AnswerContainer({
           ]
         : [""],
     }));
-    console.log(questionData);
   };
 
   return (

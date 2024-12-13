@@ -1,22 +1,26 @@
 import {
   collection,
+  deleteDoc,
+  doc,
   endAt,
   getDocs,
   orderBy,
   query,
   startAt,
-  where,
+  updateDoc,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../../firebase/firebase";
 import { useLocation } from "react-router-dom";
 import Header from "../../components/header/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown, faPen } from "@fortawesome/free-solid-svg-icons";
+import { faCaretDown, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Multiselect from "multiselect-react-dropdown";
 import _ from "lodash";
 import "./question-list.css";
 import DeleteMessage from "../../components/Delete Message/DeleteMessage";
+import { toast } from "react-toastify";
+import { checkInput, convertToLowerCase } from "../../functions/questions";
 
 export default function QuestionList() {
   const bodyStyle = {
@@ -28,8 +32,12 @@ export default function QuestionList() {
 
   const body = document.getElementsByTagName("body")[0];
   Object.assign(body.style, bodyStyle);
+
+  const [answer, setAnswer] = useState("");
+  const [categories, setCategories] = useState([]);
   const [questions, setQuestions] = useState([
     {
+      id: "",
       text: "",
       question_type: 3,
       options: [],
@@ -38,25 +46,26 @@ export default function QuestionList() {
       categories: [],
     },
   ]);
+  const [deleteMessage, setDeleteMessage] = useState(false);
+  const [selectDeleteQuestion, setSelectDeleteQuestion] = useState({
+    action: false,
+    questionId: "",
+  });
   const location = useLocation();
   const { name } = location.state;
 
-  const getCategories = async (categoriesId) => {
-    let categories = [];
-    for (let id in categoriesId) {
-      try {
-        const ref = collection(db, "Category");
-        const q = query(ref, where("id", "==", id));
-        const docs = await getDocs(q);
-
-        if (!docs.empty) {
-          categories.push(docs[0].data());
-        }
-      } catch (error) {
-        console.log(error.message);
+  const getCategoriesList = async () => {
+    try {
+      const res = await getDocs(collection(db, "Category"));
+      if (!res.empty) {
+        const documnets = res.docs.map((doc) => ({
+          ...doc.data(),
+        }));
+        setCategories(documnets);
       }
+    } catch (error) {
+      console.log(error.message);
     }
-    return categories;
   };
 
   const getQuestions = async (searchedQuestion) => {
@@ -77,20 +86,83 @@ export default function QuestionList() {
 
       const documents = res.docs.map((doc) => ({
         ...doc.data(),
+        id: doc.id,
       }));
-      //   documnets.map((doc) => {
-      //     doc.categories = getCategories(doc.categories);
-      //   });
       setQuestions(documents);
-      console.log(documents);
     } catch (error) {
       console.log(error.message);
     }
   };
 
+  const updateQuestion = async (question) => {
+    const isValid = checkInput(question);
+
+    if (isValid) {
+      try {
+        const docRef = doc(db, "Questions", question.id);
+        convertToLowerCase(question);
+        await updateDoc(docRef, question);
+
+        toast.success("Question have been changed succeessfully", {
+          position: "top-center",
+        });
+      } catch (error) {
+        toast.error(error.message, {
+          position: "top-center",
+        });
+      }
+    } else {
+      toast.error("Fill all fields", {
+        position: "top-center",
+      });
+    }
+  };
+
+  const deleteQuestion = async (question) => {
+    try {
+      const docRef = doc(db, "Questions", question);
+      await deleteDoc(docRef);
+
+      toast.success("Question have been deleted succeessfully", {
+        position: "top-center",
+      });
+    } catch (error) {
+      toast.error(error.message, {
+        position: "top-center",
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (selectDeleteQuestion.action) {
+      deleteQuestion(selectDeleteQuestion.questionId);
+      setDeleteMessage(false);
+      setQuestions(
+        questions.filter(
+          (question) => question.id !== selectDeleteQuestion.questionId
+        )
+      );
+      console.log(questions);
+      setSelectDeleteQuestion({ action: false, questionId: "" });
+    }
+  }, [selectDeleteQuestion, questions]);
+
   useEffect(() => {
     getQuestions("");
+    getCategoriesList();
   }, []);
+
+  const questionDropDown = (index) => {
+    const questionDetails = document.getElementsByClassName(
+      "editable-question-container"
+    )[index].children[1];
+
+    if (questionDetails.style.maxHeight) {
+      questionDetails.style.maxHeight = null;
+    } else {
+      questionDetails.style.maxHeight = questionDetails.scrollHeight + "px";
+    }
+  };
 
   return (
     <div>
@@ -106,12 +178,15 @@ export default function QuestionList() {
         {questions.map((question, index) => {
           return (
             <div className="editable-question-container" key={index}>
-              <div id="question-header">
+              <div
+                className="question-header"
+                onClick={() => questionDropDown(index)}
+              >
                 <FontAwesomeIcon
                   icon={faCaretDown}
                   style={{ color: "#9E9E9E" }}
                 />
-                <p id="question-header-text">
+                <p className="question-header-text">
                   {_.startCase(_.capitalize(question.text))}
                 </p>
               </div>
@@ -121,25 +196,37 @@ export default function QuestionList() {
                     value={question.text}
                     name="question"
                     id="question"
-                    disabled
-                  />
-                  <FontAwesomeIcon
-                    icon={faPen}
-                    style={{
-                      cursor: "pointer",
-                      color: "#3A3A3A",
-                    }}
+                    onChange={(e) =>
+                      setQuestions(
+                        questions.map((item) =>
+                          item.text == question.text
+                            ? {
+                                ...item,
+                                text: e.target.value,
+                              }
+                            : item
+                        )
+                      )
+                    }
                   />
                 </div>
+
                 <Multiselect
-                  options={question.categories}
+                  selectedValues={categories.filter((category) =>
+                    question.categories.includes(category.id)
+                  )}
+                  options={categories}
                   displayValue="name"
                   placeholder="Select categories"
                   onSelect={(selectedList) => {
-                    question.categories = selectedList;
+                    question.categories = selectedList.map(
+                      (selectedCategory) => selectedCategory.id
+                    );
                   }}
                   onRemove={(selectedList) => {
-                    question.categories = selectedList;
+                    question.categories = selectedList.map(
+                      (selectedCategory) => selectedCategory.id
+                    );
                   }}
                   style={{
                     searchBox: {
@@ -149,7 +236,6 @@ export default function QuestionList() {
                       fontSize: "16px",
                       marginTop: "10px",
                       padding: "10px",
-                      width: "625px",
                     },
                   }}
                 />
@@ -182,28 +268,50 @@ export default function QuestionList() {
                     <input
                       type="number"
                       value={question.correct_answer[0]}
-                      disabled
-                    />
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      style={{
-                        cursor: "pointer",
-                        color: "#3A3A3A",
-                      }}
+                      onChange={(e) =>
+                        setQuestions(
+                          questions.map((item) =>
+                            item.text == question.text
+                              ? {
+                                  ...item,
+                                  correct_answer: [e.target.value],
+                                }
+                              : item
+                          )
+                        )
+                      }
                     />
                   </div>
                 ) : question.question_type == 2 ? (
                   <>
                     {question.options.map((answer, index) =>
                       index != 3 ? (
-                        <div key={index} className="editable-answer-container">
-                          <input type="text" value={answer} disabled />
-                          <FontAwesomeIcon
-                            icon={faPen}
-                            style={{
-                              cursor: "pointer",
-                              color: "#3A3A3A",
-                            }}
+                        <div
+                          key={`option-${index}`}
+                          className="editable-answer-container"
+                        >
+                          <p>option {index + 1}:</p>
+                          <input
+                            type="text"
+                            value={answer}
+                            onChange={(e) =>
+                              setQuestions(
+                                questions.map((item) =>
+                                  item.text == question.text
+                                    ? {
+                                        ...item,
+                                        options: item.options.map(
+                                          (option, idx) => {
+                                            idx == index
+                                              ? e.target.value
+                                              : option;
+                                          }
+                                        ),
+                                      }
+                                    : item
+                                )
+                              )
+                            }
                           />
                         </div>
                       ) : null
@@ -213,47 +321,140 @@ export default function QuestionList() {
                         key={`correct-${index}`}
                         className="editable-answer-container"
                       >
-                        <input type="text" value={answer} disabled />
-                        <FontAwesomeIcon
-                          icon={faPen}
-                          style={{
-                            cursor: "pointer",
-                            color: "#3A3A3A",
-                          }}
+                        <p>correct answer: </p>
+                        <input
+                          type="text"
+                          value={answer}
+                          onChange={(e) =>
+                            setQuestions(
+                              questions.map((item) =>
+                                item.text == question.text
+                                  ? {
+                                      ...item,
+                                      correct_answer: item.correct_answer.map(
+                                        (ans, idx) => {
+                                          idx == index ? e.target.value : ans;
+                                        }
+                                      ),
+                                    }
+                                  : item
+                              )
+                            )
+                          }
                         />
                       </div>
                     ))}
                   </>
                 ) : (
                   <>
+                    <div style={{ display: "flex", gap: "10px" }}>
+                      <input
+                        className="answer"
+                        type="text"
+                        value={answer}
+                        onChange={(e) => setAnswer(e.target.value)}
+                      />
+                      <button
+                        className="add-answers-button"
+                        onClick={() =>
+                          setQuestions(
+                            questions.map((it) =>
+                              it.text == question.text
+                                ? {
+                                    ...it,
+                                    correct_answer: [
+                                      ...it.correct_answer,
+                                      answer,
+                                    ],
+                                  }
+                                : it
+                            )
+                          )
+                        }
+                      >
+                        Add answer
+                      </button>
+                    </div>
                     {question.correct_answer.map((answer, index) => (
                       <div
                         key={`correct-${index}`}
                         className="editable-answer-container"
                       >
-                        <input type="text" value={answer} disabled />
+                        <p>correct answer: {index + 1}</p>
+                        <input
+                          type="text"
+                          value={answer}
+                          onChange={(e) =>
+                            setQuestions(
+                              questions.map((item) =>
+                                item.text == question.text
+                                  ? {
+                                      ...item,
+                                      correct_answer: item.correct_answer.map(
+                                        (ans, idx) => {
+                                          idx == index ? e.target.value : ans;
+                                        }
+                                      ),
+                                    }
+                                  : item
+                              )
+                            )
+                          }
+                        />
                         <FontAwesomeIcon
-                          icon={faPen}
-                          style={{
-                            cursor: "pointer",
-                            color: "#3A3A3A",
-                          }}
+                          icon={faTrash}
+                          style={{ color: "#F64F4F", cursor: "pointer" }}
+                          onClick={() =>
+                            setQuestions(
+                              questions.map((item) =>
+                                item.text == question.text
+                                  ? {
+                                      ...item,
+                                      correct_answer:
+                                        item.correct_answer.filter(
+                                          (ans) => ans !== answer
+                                        ),
+                                    }
+                                  : item
+                              )
+                            )
+                          }
                         />
                       </div>
                     ))}
                   </>
                 )}
-
                 <div className="button-list">
-                  <button className="edit-button">Edit</button>
-                  <button className="delete-button">Delete</button>
+                  <button
+                    className="edit-button"
+                    onClick={() => updateQuestion(question)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="delete-button"
+                    onClick={() => {
+                      setDeleteMessage(true);
+                      setSelectDeleteQuestion((prev) => ({
+                        ...prev,
+                        questionId: question.id,
+                      }));
+                    }}
+                  >
+                    Delete
+                  </button>
                 </div>
               </div>
             </div>
           );
         })}
       </div>
-      <DeleteMessage />
+      {deleteMessage ? (
+        <DeleteMessage
+          setDeleteMessage={setDeleteMessage}
+          setSelectDeleteQuestion={setSelectDeleteQuestion}
+        />
+      ) : null}
     </div>
   );
 }

@@ -5,6 +5,7 @@ import QuestionContainer from "../Question container/QuestionContainer";
 import "./enter-number.css";
 import { toast } from "react-toastify";
 import Multiselect from "multiselect-react-dropdown";
+import { checkInput, convertToLowerCase } from "../../functions/questions";
 
 export default function EnterNumber() {
   const [questionData, setQuestionData] = useState({
@@ -35,47 +36,12 @@ export default function EnterNumber() {
     getCategories();
   }, []);
 
-  const checkInput = (inputs) => {
-    if (inputs.text == "") {
-      return false;
-    }
-    if (inputs.correct_answer.length === 0) {
-      return false;
-    }
-    if (inputs.difficulty_level == "") {
-      return false;
-    }
-    if (inputs.categories.length === 0) {
-      return false;
-    }
-    return true;
-  };
-
-  const convertToLowerCase = (data) => {
-    for (let key in data) {
-      if (typeof data[key] == "string") {
-        data[key] = data[key].toLowerCase();
-        console.log("Hello");
-      }
-
-      if (data[key] instanceof Array) {
-        data[key].map((it) => {
-          if (typeof it == "string") {
-            it.toLowerCase();
-            console.log("Hello");
-          }
-        });
-      }
-    }
-  };
-
   const sendQuestion = async (e) => {
     e.preventDefault();
     const isValid = checkInput(questionData);
 
-    convertToLowerCase(questionData);
-
     if (isValid) {
+      convertToLowerCase(questionData);
       try {
         await addDoc(collection(db, "Questions"), questionData);
         toast.success("Question have been saved succeessfully", {

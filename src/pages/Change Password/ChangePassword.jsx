@@ -54,18 +54,6 @@ export default function ChangePassword() {
     });
   };
 
-  window.onclick = function (e) {
-    const dropdown = document.getElementById("dropdown-panel");
-    if (
-      !(
-        e.target.matches(".profile-container") ||
-        e.target.matches(".profile-container p")
-      )
-    ) {
-      dropdown.style.maxHeight = null;
-    }
-  };
-
   return (
     <div>
       <Header name={name} />
