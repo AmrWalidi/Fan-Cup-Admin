@@ -61,3 +61,12 @@
     color: #807575;
     background-color: transparent;
 }
+
+@media only screen and (max-width: 500px)  {
+    
+    .delete-message-detail {
+        width: 280px;
+        font-size: 14px;
+    }
+    
+}

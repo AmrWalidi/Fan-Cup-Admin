@@ -31,3 +31,14 @@
     font-size: 14px;
     font-weight: 500;
 }
+
+@media only screen and (max-width: 500px) {
+
+    .icon-container {
+        padding: 10px 12px;
+    }
+
+    .input-icon {
+        font-size: 14px;
+    }
+}

@@ -69,6 +69,7 @@ export default function QuestionList() {
   };
 
   const getQuestions = async (searchedQuestion) => {
+    searchedQuestion = searchedQuestion.toLowerCase();
     try {
       let res;
       const ref = collection(db, "Questions");
