@@ -17,7 +17,7 @@ export default function MultipleChoice() {
     difficulty_level: "",
     categories: [],
   });
-  const [categories, setCategories] = useState();
+  const [categories, setCategories] = useState([]);
 
   const getCategories = async () => {
     try {
@@ -102,6 +102,9 @@ export default function MultipleChoice() {
           options={categories}
           displayValue="name"
           placeholder="Select categories"
+          selectedValues={categories.filter((cat) =>
+            questionData.categories.includes(cat.id)
+          )}
           onSelect={(selectedList) => {
             setQuestionData((prev) => ({
               ...prev,

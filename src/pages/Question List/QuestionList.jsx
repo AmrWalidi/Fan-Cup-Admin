@@ -39,7 +39,7 @@ export default function QuestionList() {
     {
       id: "",
       text: "",
-      question_type: 3,
+      question_type: 0,
       options: [],
       correct_answer: [],
       difficulty_level: "",
@@ -242,7 +242,7 @@ export default function QuestionList() {
                 />
                 <select
                   className="difficulty-dropdown"
-                  value={question.difficulty_level}
+                  value={_.startCase(_.capitalize(question.difficulty_level))}
                   onChange={(e) =>
                     setQuestions((prevList) =>
                       prevList.map(

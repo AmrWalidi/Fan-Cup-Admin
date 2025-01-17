@@ -68,7 +68,7 @@ export default function Header({ name }) {
             icon={faList}
             style={{ fontSize: "22px", color: "#4B4B4B" }}
           />
-          <p style={{ color: "#4B4B4B" }}>Question</p>
+          <p style={{ color: "#4B4B4B" }}>Questions</p>
         </div>
         <div onClick={navigateToChangePassword}>
           <FontAwesomeIcon

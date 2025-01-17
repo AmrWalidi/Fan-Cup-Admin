@@ -16,7 +16,8 @@ export default function EnterNumber() {
     difficulty_level: "",
     categories: [],
   });
-  const [categories, setCategories] = useState();
+  const [categories, setCategories] = useState([]);
+  const [success, setSuccess] = useState(false);
 
   const getCategories = async () => {
     try {
@@ -55,6 +56,7 @@ export default function EnterNumber() {
           difficulty_level: "",
           categories: [],
         });
+        setSuccess(true);
       } catch (error) {
         toast.error(error.message, {
           position: "top-center",
@@ -72,11 +74,16 @@ export default function EnterNumber() {
       <QuestionContainer
         handleQuestion={setQuestionData}
         questionData={questionData}
+        success={success}
+        setSuccess={setSuccess}
       />
       <Multiselect
         options={categories}
         displayValue="name"
         placeholder="Select categories"
+        selectedValues={categories.filter((cat) =>
+          questionData.categories.includes(cat.id)
+        )}
         onSelect={(selectedList) => {
           setQuestionData((prev) => ({
             ...prev,
