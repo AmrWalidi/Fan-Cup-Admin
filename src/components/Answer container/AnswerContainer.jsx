@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import "./answer-container.css";
+import { useEffect, useState } from "react";
 
 export default function AnswerContainer({
   number,
@@ -7,6 +8,14 @@ export default function AnswerContainer({
   correctAnswer,
   handleAnswers,
 }) {
+  const [answer, setAnswer] = useState("");
+
+  useEffect(() => {
+    if (questionData.options.length == 0) {
+      setAnswer("");
+    }
+  }, [questionData.options]);
+  
   const answerChange = (value) => {
     if (correctAnswer) {
       handleAnswers((prev) => ({
@@ -24,6 +33,7 @@ export default function AnswerContainer({
           ]
         : [""],
     }));
+    setAnswer(value);
   };
 
   return (
@@ -33,11 +43,7 @@ export default function AnswerContainer({
         placeholder={correctAnswer ? "Correct answer" : "Answer " + number}
         onChange={(e) => answerChange(e.target.value)}
         className={correctAnswer ? "answer correct-answer" : "answer"}
-        value={
-          number
-            ? questionData.options[number - 1]
-            : questionData.correct_answer
-        }
+        value={answer}
       />
     </div>
   );
@@ -45,7 +51,7 @@ export default function AnswerContainer({
 
 AnswerContainer.propTypes = {
   number: PropTypes.number,
-  correctAnswer: PropTypes.bool,
   questionData: PropTypes.object,
+  correctAnswer: PropTypes.bool,
   handleAnswers: PropTypes.func,
 };

@@ -15,11 +15,11 @@
     background-color: transparent;
 }
 
-.nav-items:hover{
+.nav-items:hover {
     background: #edeef0;
 }
 
-.selected-type{
+.selected-type {
     background-color: #a8e391;
     color: #569743;
     font-size: 1.25rem;
@@ -29,7 +29,7 @@
     padding: 5px 20px;
 }
 
-.selected-type:hover{
+.selected-type:hover {
     background-color: #a8e391;
 }
 
@@ -55,6 +55,18 @@
     font-size: 16px;
     border-radius: 5px;
     border: 1px solid #ccc;
+}
+
+.add-question-button {
+    cursor: pointer;
+    padding: 7px 24px;
+    border: 0;
+    border-radius: 4px;
+    background: #4CA974;
+    color: #FFFBFB;
+    font-size: 20px;
+    font-weight: 400;
+    margin-top: 40px;
 }
 
 @media only screen and (max-width: 800px) {
@@ -92,6 +104,11 @@
 
     .main-container {
         padding-bottom: 10px;
+    }
+
+    .add-question-button {
+        width: 100%;
+        font-size: 15px;
     }
 }
 

@@ -25,16 +25,13 @@
     }
 
     .multiple-choice-add-button {
-        font-size: 15px;
-    }
-
-    .multiple-choice-add-button {
         position: relative;
         left: 50%;
         transform: translateX(-50%);
+        font-size: 15px;
     }
-
 }
+
 @media only screen and (max-width: 500px) {
     .options {
         display: flex;

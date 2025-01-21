@@ -2,19 +2,13 @@ import { useEffect, useState } from "react";
 import "./question-container.css";
 import PropTypes from "prop-types";
 
-export default function QuestionContainer({
-  handleQuestion,
-  questionData,
-  setSuccess,
-  success,
-}) {
+export default function QuestionContainer({ handleQuestion, questionData }) {
   const [counter, setCounter] = useState(0);
   useEffect(() => {
-    if (success) {
-      setSuccess(false);
+    if (questionData.text == "") {
       setCounter(0);
     }
-  }, [success, setSuccess]);
+  }, [questionData.text]);
 
   const characterCounter = (value) => {
     if (value.length <= 100) {

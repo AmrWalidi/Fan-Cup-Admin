@@ -1,82 +1,21 @@
-import { useEffect, useState } from "react";
-import AnswerContainer from "../Answer container/AnswerContainer";
+import { useState } from "react";
 import QuestionContainer from "../Question container/QuestionContainer";
 import "./enter-answers.css";
-import { addDoc, collection, getDocs } from "firebase/firestore";
-import { db } from "../../firebase/firebase";
-import { toast } from "react-toastify";
 import Multiselect from "multiselect-react-dropdown";
-import { checkInput, convertToLowerCase } from "../../functions/questions";
+import PropTypes from "prop-types";
 
-export default function EnterAnswers() {
-  const [correctAnswers, setCorrectAnswers] = useState([]);
+export default function EnterAnswers({
+  questionData,
+  setQuestionData,
+  categories,
+}) {
+  const [correctAnswer, setCorrectAnswer] = useState("");
   const addAnswer = () => {
-    setCorrectAnswers([...correctAnswers, questionData.correct_answer[0]]);
-  };
-
-  const [questionData, setQuestionData] = useState({
-    text: "",
-    question_type: 3,
-    options: [],
-    correct_answer: [],
-    difficulty_level: "",
-    categories: [],
-  });
-  const [categories, setCategories] = useState([]);
-
-  const getCategories = async () => {
-    try {
-      const res = await getDocs(collection(db, "Category"));
-      if (!res.empty) {
-        const documnets = res.docs.map((doc) => ({
-          ...doc.data(),
-        }));
-        setCategories(documnets);
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  useEffect(() => {
-    getCategories();
-  }, []);
-
-  const updatedQuestionData = {
-    ...questionData,
-    correct_answer: correctAnswers,
-  };
-
-  const sendQuestion = async (e) => {
-    e.preventDefault();
-    const inValid = checkInput(updatedQuestionData);
-
-    if (inValid) {
-      convertToLowerCase(updatedQuestionData);
-      try {
-        await addDoc(collection(db, "Questions"), updatedQuestionData);
-        toast.success("Question have been saved succeessfully", {
-          position: "top-center",
-        });
-        setQuestionData({
-          text: "",
-          question_type: 3,
-          options: [],
-          correct_answer: [],
-          difficulty_level: "",
-          categories: [],
-        });
-        setCorrectAnswers([]);
-      } catch (error) {
-        toast.error(error.message, {
-          position: "top-center",
-        });
-      }
-    } else {
-      toast.error("Fill all fields", {
-        position: "top-center",
-      });
-    }
+    setQuestionData((prev) => ({
+      ...prev,
+      correct_answer: [...prev.correct_answer, correctAnswer],
+    }));
+    setCorrectAnswer("");
   };
 
   return (
@@ -86,17 +25,21 @@ export default function EnterAnswers() {
         questionData={questionData}
       />
       <div className="answers-addition-section">
-        <AnswerContainer
-          correctAnswer={true}
-          handleAnswers={setQuestionData}
-          questionData={questionData}
-        />
+        <div>
+          <input
+            type="text"
+            placeholder="Correct answer"
+            onChange={(e) => setCorrectAnswer(e.target.value)}
+            className="answer correct-answer"
+            value={correctAnswer}
+          />
+        </div>
         <button className="add-answers-button" onClick={addAnswer}>
           Add answer
         </button>
       </div>
       <div className="answers-panel">
-        <p>{correctAnswers.join(", ")}</p>
+        <p>{questionData.correct_answer.join(", ")}</p>
       </div>
       <Multiselect
         options={categories}
@@ -147,10 +90,13 @@ export default function EnterAnswers() {
           <option value="Hard">Hard</option>
           <option value="Super Hard">Super Hard</option>
         </select>
-        <button className="enter-answers-add-button" onClick={sendQuestion}>
-          Add question
-        </button>
       </div>
     </div>
   );
 }
+
+EnterAnswers.propTypes = {
+  questionData: PropTypes.object,
+  setQuestionData: PropTypes.func,
+  categories: PropTypes.array,
+};

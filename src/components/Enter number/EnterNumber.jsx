@@ -1,81 +1,36 @@
 import { useEffect, useState } from "react";
-import { db } from "../../firebase/firebase";
-import { addDoc, collection, getDocs } from "firebase/firestore";
 import QuestionContainer from "../Question container/QuestionContainer";
 import "./enter-number.css";
-import { toast } from "react-toastify";
 import Multiselect from "multiselect-react-dropdown";
-import { checkInput, convertToLowerCase } from "../../functions/questions";
+import PropTypes from "prop-types";
 
-export default function EnterNumber() {
-  const [questionData, setQuestionData] = useState({
-    text: "",
-    question_type: 1,
-    options: [],
-    correct_answer: [],
-    difficulty_level: "",
-    categories: [],
-  });
-  const [categories, setCategories] = useState([]);
-  const [success, setSuccess] = useState(false);
-
-  const getCategories = async () => {
-    try {
-      const res = await getDocs(collection(db, "Category"));
-      if (!res.empty) {
-        const documnets = res.docs.map((doc) => ({
-          ...doc.data(),
-        }));
-        setCategories(documnets);
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+export default function EnterNumber({
+  questionData,
+  setQuestionData,
+  categories,
+}) {
+  const [number, setNumber] = useState("");
 
   useEffect(() => {
-    getCategories();
-  }, []);
-
-  const sendQuestion = async (e) => {
-    e.preventDefault();
-    const isValid = checkInput(questionData);
-
-    if (isValid) {
-      convertToLowerCase(questionData);
-      try {
-        await addDoc(collection(db, "Questions"), questionData);
-        toast.success("Question have been saved succeessfully", {
-          position: "top-center",
-        });
-        setQuestionData({
-          text: "",
-          question_type: 1,
-          options: [],
-          correct_answer: [0],
-          difficulty_level: "",
-          categories: [],
-        });
-        setSuccess(true);
-      } catch (error) {
-        toast.error(error.message, {
-          position: "top-center",
-        });
-      }
-    } else {
-      toast.error("Fill all fields", {
-        position: "top-center",
-      });
+    if (questionData.correct_answer[0] == "") {
+      setNumber("");
     }
+  }, [questionData.correct_answer]);
+
+  const answerChange = (value) => {
+    value = value.toString();
+    setQuestionData((prev) => ({
+      ...prev,
+      correct_answer: [value],
+    }));
+    setNumber(value);
   };
 
   return (
-    <form onSubmit={sendQuestion}>
+    <div>
       <QuestionContainer
         handleQuestion={setQuestionData}
         questionData={questionData}
-        success={success}
-        setSuccess={setSuccess}
       />
       <Multiselect
         options={categories}
@@ -112,13 +67,8 @@ export default function EnterNumber() {
           className="numbered-answer"
           type="number"
           placeholder="Number"
-          onChange={(e) =>
-            setQuestionData((prev) => ({
-              ...prev,
-              correct_answer: [e.target.value.toString()],
-            }))
-          }
-          value={questionData.correct_answer[0]}
+          onChange={(e) => answerChange(e.target.value)}
+          value={number}
         />
         <select
           className="difficulty-dropdown"
@@ -139,12 +89,12 @@ export default function EnterNumber() {
           <option value="Super Hard">Super Hard</option>
         </select>
       </div>
-
-      <input
-        className="enter-number-add-button"
-        value="Add question"
-        type="submit"
-      />
-    </form>
+    </div>
   );
 }
+
+EnterNumber.propTypes = {
+  questionData: PropTypes.object,
+  setQuestionData: PropTypes.func,
+  categories: PropTypes.array,
+};

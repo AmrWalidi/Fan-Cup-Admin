@@ -17,28 +17,7 @@
     outline: none;
 }
 
-.enter-number-add-button {
-    cursor: pointer;
-    padding: 7px 24px;
-    border: 0;
-    border-radius: 4px;
-    background: #4CA974;
-    color: #FFFBFB;
-    font-size: 20px;
-    font-weight: 400;
-    margin-top: 40px;
-}
 
-@media only screen and (max-width: 800px) {
-
-    .enter-number-add-button {
-        position: relative;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 17px;
-        margin-top: 30px;
-    }
-}
 
 @media only screen and (max-width: 500px) {
 
