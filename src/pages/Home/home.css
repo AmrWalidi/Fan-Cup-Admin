@@ -140,4 +140,9 @@
     .main-container {
         padding-bottom: 10px;
     }
+
+    .difficulty-dropdown {
+        width: 100%;
+        margin-top: 10px;
+    }
 }

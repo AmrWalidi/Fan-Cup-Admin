@@ -46,12 +46,6 @@
     font-weight: 400;
 }
 
-.difficulty-add-button-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-}
 
 @media only screen and (max-width: 1050px) {
     .add-answers-button {
@@ -96,10 +90,5 @@
         margin-top: 15px;
     }
 
-    .difficulty-add-button-container {
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 20px;
-    }
+    
 }

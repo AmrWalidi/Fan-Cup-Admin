@@ -67,30 +67,29 @@ export default function EnterAnswers({
             fontWeight: "bold",
             fontSize: "16px",
             marginTop: "10px",
+            marginBottom: "10px",
             padding: "10px",
           },
         }}
       />
-      <div className="difficulty-add-button-container">
-        <select
-          className="difficulty-dropdown"
-          value={questionData.difficulty_level}
-          onChange={(e) =>
-            setQuestionData((prev) => ({
-              ...prev,
-              difficulty_level: e.target.value,
-            }))
-          }
-        >
-          <option value="" disabled>
-            -- Select question difficulty --
-          </option>
-          <option value="Easy">Easy</option>
-          <option value="Medium">Medium</option>
-          <option value="Hard">Hard</option>
-          <option value="Super Hard">Super Hard</option>
-        </select>
-      </div>
+      <select
+        className="difficulty-dropdown"
+        value={questionData.difficulty_level}
+        onChange={(e) =>
+          setQuestionData((prev) => ({
+            ...prev,
+            difficulty_level: e.target.value,
+          }))
+        }
+      >
+        <option value="" disabled>
+          -- Select question difficulty --
+        </option>
+        <option value="Easy">Easy</option>
+        <option value="Medium">Medium</option>
+        <option value="Hard">Hard</option>
+        <option value="Super Hard">Super Hard</option>
+      </select>
     </div>
   );
 }
