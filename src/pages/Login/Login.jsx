@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase/firebase";
+import { auth, db } from "../../firebase/firebase";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import Input from "../../components/Input/Input";
@@ -23,8 +24,22 @@ export default function Login() {
   const login = async (e) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate("/home");
+      const colRef = collection(db, "Admins"); // Replace 'users' with your collection name
+      const q = query(colRef, where("email", "==", email));
+
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        await signInWithEmailAndPassword(auth, email, password);
+        navigate("/home");
+      }
+
+      else{
+        toast.error("This user is not registered", {
+          position: "top-center",
+          autoClose: 2000,
+        });
+      }
     } catch {
       toast.error("invalid credentials", {
         position: "top-center",
