@@ -10,6 +10,7 @@ import "./home.css";
 import "../../components/header/header.css";
 import { toast } from "react-toastify";
 import { checkInput, convertToLowerCase } from "../../functions/questions";
+import shuffleArray from "../../functions/answers";
 
 export default function Home() {
   const location = useLocation();
@@ -47,9 +48,11 @@ export default function Home() {
           questionData.question_type = 1;
         } else if (selectedItem == "Multiple-choice") {
           questionData.question_type = 2;
+          questionData.options = shuffleArray(questionData.options);
         } else {
           questionData.question_type = 3;
         }
+        console.log(questionData.options.length);
         await addDoc(collection(db, "Questions"), questionData);
         toast.success("Question have been saved succeessfully", {
           position: "top-center",

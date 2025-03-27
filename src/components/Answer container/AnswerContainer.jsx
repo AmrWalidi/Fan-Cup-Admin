@@ -15,7 +15,7 @@ export default function AnswerContainer({
       setAnswer("");
     }
   }, [questionData.options]);
-  
+
   const answerChange = (value) => {
     if (correctAnswer) {
       handleAnswers((prev) => ({
@@ -27,11 +27,11 @@ export default function AnswerContainer({
       ...prev,
       options: number
         ? [
-            ...prev.options.slice(0, number - 1),
+            ...prev.options.slice(0, number),
             value,
             ...prev.options.slice(number),
           ]
-        : [""],
+        : [""]
     }));
     setAnswer(value);
   };

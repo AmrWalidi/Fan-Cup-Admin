@@ -24,7 +24,7 @@ export default function Login() {
   const login = async (e) => {
     e.preventDefault();
     try {
-      const colRef = collection(db, "Admins"); // Replace 'users' with your collection name
+      const colRef = collection(db, "Admins"); 
       const q = query(colRef, where("email", "==", email));
 
       const querySnapshot = await getDocs(q);
