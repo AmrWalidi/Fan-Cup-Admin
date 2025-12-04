@@ -30,4 +30,4 @@
    ```
 4. **Run / Deploy**
    ```bash
-    npm run dev
+   npm run dev
