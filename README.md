@@ -25,9 +25,9 @@
 2. **Open in your IDE (VS Code)**
 
 3. **Install dependenceis**
-  ```bash
+  ```
   npm i
-
+   ```
 4. **Run / Deploy**
    ```bash
     npm run dev
