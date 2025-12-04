@@ -26,7 +26,7 @@
 
 3. **Install dependenceis**
   ```
-     npm i
+  npm i
    ```
 4. **Run / Deploy**
    ```bash
